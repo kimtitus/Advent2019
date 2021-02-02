@@ -9,7 +9,11 @@ public class Day1 {
 		 Scanner input = new Scanner(new File("Day1File.txt"));
 		 while(input.hasNext()) {
 			 //System.out.println(input.nextLine());
-			 intTotelFuel = intTotelFuel + getFuel(input.nextLine());
+			 int intFuel =  getFuel(input.nextLine());
+			 intTotelFuel = intTotelFuel + intFuel;
+			 System.out.println("intFuel = " + intFuel);
+			 intTotelFuel = getFuelsFuel(intFuel);
+			 
 		 }
 		 System.out.print("intTotelFuel = " + intTotelFuel);
 	}
@@ -20,5 +24,16 @@ public class Day1 {
 		
 		
 		return intFuel;
+	}
+	
+	private static int getFuelsFuel(int intFuel) {
+		while(intFuel > 0) {
+			 intFuel =  getFuel(String.valueOf(intFuel));
+			 if(intFuel > 0) {
+				 intTotelFuel = intTotelFuel + intFuel;
+			 }
+		 }
+		
+		return intTotelFuel;
 	}
 }
