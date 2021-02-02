@@ -1,0 +1,19 @@
+import java.io.*;
+import java.util.Scanner;
+
+public class Day1 {
+	int intTotelFuel;
+	
+	public static void main(String[] args) throws IOException {
+		
+		 Scanner input = new Scanner(new File("Day1File.txt"));
+		 while(input.hasNext()) {
+			 System.out.println(input.nextLine());
+			 int intFuel = getFuel(input.nextLine());
+		 }
+	}
+	
+
+}
+
+
