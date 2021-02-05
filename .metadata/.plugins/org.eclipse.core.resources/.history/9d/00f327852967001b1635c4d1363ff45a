@@ -1,0 +1,267 @@
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
+
+public class Day3 {
+	public static Map<String,String> mapDirectionCrosswalk = new HashMap<>();
+	public static List<String> lstIntersection = new ArrayList<>();
+	public static Map<String,Integer> mapIntersectionSteps = new HashMap<>();
+	public static int intLowestStep;
+	String[] lstDirection;
+	List<String>lstLocation = new ArrayList<>();
+	Map<String,Integer> mapLocationSteps = new HashMap<>();
+	int intLeft = 0;
+	int intRight = 0;
+	int intUp = 0;
+	int intDown = 0;
+	int intDirectionCounter = 0;
+	int intLstSize = 0;
+	int intStepsCounter = 0;
+	
+	public int manhattanDistance() {
+		return 0;
+	}
+	
+	public static void main(String[] args) throws IOException {
+		mapDirectionCrosswalk.put("U", "intUp");
+		mapDirectionCrosswalk.put("D", "intDown");
+		mapDirectionCrosswalk.put("R", "intRight");
+		mapDirectionCrosswalk.put("L", "intLeft");
+		
+		Scanner input = new Scanner(new File("Day3File.txt"));
+		
+		Day3 wire1 = new Day3();
+		Day3 wire2 = new Day3();
+		
+		wire1.lstDirection = input.nextLine().split(",");
+		wire1.intLstSize = wire1.lstDirection.length;
+		wire2.lstDirection = input.nextLine().split(",");
+		wire2.intLstSize = wire2.lstDirection.length;	
+		
+		while(!isListFinished(wire1)) {
+			wire1 = executeSingleDirection(wire1);
+			//wire1 = addLocation(wire1);
+		}
+		
+		//System.out.println("wire1 lst Location length = " + wire1.lstLocation.size());
+		//System.out.println("wire1 lstLocation length = " + wire1.lstDirection.length);
+		//System.out.println("wire1 Direction counter  = " + wire1.intDirectionCounter);
+		
+		while(!isListFinished(wire2)) {
+			wire2 = executeSingleDirection(wire2);
+			//wire2 = addLocation(wire2);
+		}
+		
+		//System.out.println("wire2 lst Location length = " + wire2.lstLocation.size());
+		//System.out.println("wire2 lstLocation length = " + wire2.lstDirection.length);
+		//System.out.println("wire2 Direction counter  = " + wire2.intDirectionCounter);
+		
+		for(String s : wire1.lstLocation) {
+			System.out.println("wire1 location = " + s);
+			//System.out.println("wire1 stepCounter = " + wire1.mapLocationSteps.get(s));
+		}
+		
+		System.out.println("");
+		
+		for(String s : wire2.lstLocation) {
+			System.out.println("wire2 location = " + s);
+			//System.out.println("wire2 stepCounter = " + wire2.mapLocationSteps.get(s));
+		}
+		
+		for(String s : lstIntersection) {
+			System.out.println("setIntersection = " + s);
+		}
+		System.out.println("");
+		
+		
+		lstIntersection = getListOfIntersection(wire1,wire2);
+		//lstIntersection = removeSpecialIntersections(lstIntersection);
+		for (String s : lstIntersection) {
+			System.out.println("Intersection = " + s);
+		}
+		
+		int intSmallestvalue = getSmalletsManhattanValue(lstIntersection);
+		System.out.println("intSmallestvalue = " + intSmallestvalue);
+		System.out.println("");
+		System.out.println("mapIntersectionSteps = " + mapIntersectionSteps);
+	}
+	
+	public static Day3 executeSingleDirection(Day3 wire) {
+		System.out.println("ENTERING executeSingleDirection");
+		String strWireDirection = wire.lstDirection[wire.intDirectionCounter];
+		String strDirection = mapDirectionCrosswalk.get(strWireDirection.charAt(0) + "");
+		int intDirectionValue = Integer.valueOf(strWireDirection.substring(1,strWireDirection.length()));
+		if (strDirection.equals("intUp")) {
+			wire = addLocation(wire, strDirection, intDirectionValue);
+			wire.intUp = wire.intUp + intDirectionValue;
+		}else if (strDirection.equals("intRight")) {
+			wire = addLocation(wire, strDirection, intDirectionValue);
+			wire.intRight = wire.intRight + intDirectionValue;
+		}else if (strDirection.equals("intDown")) {
+			wire = addLocation(wire, strDirection, intDirectionValue);
+			//wire.intDown = wire.intDown + intDirectionValue;
+			wire.intUp = wire.intUp - intDirectionValue;
+		}else if (strDirection.equals("intLeft")) {
+			wire = addLocation(wire, strDirection, intDirectionValue);
+			wire.intRight = wire.intRight - intDirectionValue;
+			//wire.intLeft = wire.intLeft + intDirectionValue;
+		}		
+		System.out.println("intDirectionValue = " + intDirectionValue);
+		wire.intStepsCounter = wire.intStepsCounter + intDirectionValue;
+		wire.mapLocationSteps.put(strLocation, wire.intStepsCounter);;
+		wire.intDirectionCounter++;
+		//
+		return wire;
+		
+	}
+	
+	public static Day3 addLocation(Day3 wire, String strDirection, int intDirectionValue) {
+		String strLocation = "";
+		//System.out.println("strDirection = " + strDirection);
+		if (strDirection.equals("intRight")) {
+			strLocation = wire.intRight + "," + (wire.intRight + intDirectionValue)  + " " + wire.intUp;
+		}else if (strDirection.equals("intUp")) {
+			//System.out.println("FOUND");
+			strLocation = wire.intRight + " " + wire.intUp + "," + (wire.intUp + intDirectionValue);
+			
+		}else if (strDirection.equals("intLeft")) {
+			strLocation = (wire.intRight - intDirectionValue) + "," + returnLargerValue(wire.intRight,-intDirectionValue) +  " " + wire.intUp;
+		}else if (strDirection.equals("intDown")) {
+			strLocation = wire.intRight + " " + ((wire.intUp - intDirectionValue)) + "," + returnLargerValue(wire.intUp, -intDirectionValue);
+		}
+		
+		wire.lstLocation.add(strLocation);
+		System.out.println("strLocation = " + strLocation);
+		return wire;
+	}
+	
+	public static boolean isListFinished(Day3 wire) {
+		if(wire.intDirectionCounter == wire.intLstSize) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static List<String> getListOfIntersection(Day3 wire1, Day3 wire2){
+		//System.out.println("ENTERING getListOfInterSection");
+		List<String> lstIntersection = new ArrayList<>();
+		for (int i = 0 ; i < wire1.lstLocation.size() ; i++) {
+			for (int j = 0 ; j < wire2.lstLocation.size() ; j++) {
+				//System.out.println("wire1.lstLocation.get(i) = " + wire1.lstLocation.get(i));
+				//System.out.println("wire2.lstLocation.get(j) = " + wire2.lstLocation.get(j));
+				String[] singleLocationSplit = wire1.lstLocation.get(i).split(" ");
+				List<String> lstSingleWire1Location = new ArrayList<String>();
+				lstSingleWire1Location = Arrays.asList(singleLocationSplit);
+				
+				singleLocationSplit = wire2.lstLocation.get(j).split(" ");
+				List<String> lstSingleWire2Location = new ArrayList<String>();
+				lstSingleWire2Location = Arrays.asList(singleLocationSplit);
+				
+				if ((!lstSingleWire1Location.get(0).contains(",") && lstSingleWire2Location.get(0).contains(",")) || (lstSingleWire1Location.get(0).contains(",") && !lstSingleWire2Location.get(0).contains(","))) {
+					if(lstSingleWire1Location.get(0).contains(",")) {
+						String[] wire1XCoordSplit = lstSingleWire1Location.get(0).split(",");
+						String[] wire2YCoordSplit = lstSingleWire2Location.get(1).split(",");
+						if (Integer.valueOf(lstSingleWire2Location.get(0)) >= Integer.valueOf(wire1XCoordSplit[0]) && Integer.valueOf(lstSingleWire2Location.get(0)) <= Integer.valueOf(wire1XCoordSplit[1])) {
+							
+							if (Integer.valueOf(lstSingleWire1Location.get(1)) >= Integer.valueOf(wire2YCoordSplit[0]) && Integer.valueOf(lstSingleWire1Location.get(1)) <= Integer.valueOf(wire2YCoordSplit[1])) {
+								System.out.println("INTERSECTION FOUND");
+								System.out.println("wire1.lstLocation.get(i) = " + wire1.lstLocation.get(i));
+								System.out.println("wire2.lstLocation.get(j) = " + wire2.lstLocation.get(j));
+								System.out.println("wire1.mapLocationSteps.get(wire1.lstLocation.get(i) = " + wire1.mapLocationSteps.get(wire1.lstLocation.get(i)));
+								System.out.println("wire2.mapLocationSteps.get(wire2.lstLocation.get(j) = " + wire2.mapLocationSteps.get(wire2.lstLocation.get(j)));
+								int intWire1Step = Math.abs(wire1.mapLocationSteps.get(wire1.lstLocation.get(i)) - Math.abs((Integer.valueOf(lstSingleWire2Location.get(0)) - Integer.valueOf(wire1XCoordSplit[0]))));
+								int intWire2Step = Math.abs(wire2.mapLocationSteps.get(wire2.lstLocation.get(j)) - Math.abs(Integer.valueOf(lstSingleWire1Location.get(1)) - Integer.valueOf(wire2YCoordSplit[1])));
+								
+								System.out.println("intWire1Step = " + intWire1Step);
+								System.out.println("intWire2Step = " + intWire2Step);
+								int intTotalStep = intWire1Step + intWire2Step;
+								mapIntersectionSteps.put(lstSingleWire2Location.get(0) + " " +lstSingleWire1Location.get(1), intTotalStep);
+								
+								lstIntersection.add(lstSingleWire2Location.get(0) + " " +lstSingleWire1Location.get(1));
+							}
+						}
+					}else {
+						String[] wire2XCoordSplit = lstSingleWire2Location.get(0).split(",");
+						//System.out.println("wire2XCoordSplit = " + wire2XCoordSplit);
+						String[] wire1YCoordSplit = lstSingleWire1Location.get(1).split(",");
+						//System.out.println("wire1YCoordSplit = " + wire1YCoordSplit);
+						
+						if (Integer.valueOf(lstSingleWire1Location.get(0)) >= Integer.valueOf(wire2XCoordSplit[0]) && Integer.valueOf(lstSingleWire1Location.get(0)) <= Integer.valueOf(wire2XCoordSplit[1])) {
+							//System.out.println("lstSingleWire2Location[0] = " + lstSingleWire2Location.get(0));
+							if (Integer.valueOf(lstSingleWire2Location.get(1)) >= Integer.valueOf(wire1YCoordSplit[0]) && Integer.valueOf(lstSingleWire2Location.get(1)) <= Integer.valueOf(wire1YCoordSplit[1])) {
+								//System.out.println("lstSingleWire1Location = " +lstSingleWire1Location.get(1));
+								//System.out.println("INTERSECTION FOUND");
+								//System.out.println("wire1.lstLocation.get(i) = " + wire1.lstLocation.get(i));
+								//System.out.println("wire2.lstLocation.get(j) = " + wire2.lstLocation.get(j));
+								//System.out.println("INTERSECTION =  " + lstSingleWire1Location.get(0) + " " +lstSingleWire2Location.get(1));
+								int intTotalStep = wire1.intStepsCounter + wire2.intStepsCounter;
+								mapIntersectionSteps.put(lstSingleWire1Location.get(0) + " " +lstSingleWire2Location.get(1), intTotalStep);
+								lstIntersection.add(lstSingleWire1Location.get(0) + " " +lstSingleWire2Location.get(1));
+							}
+						}
+					}
+				}
+				
+			}
+		}
+		return lstIntersection;
+	}
+	
+	public static int returnLargerValue(int intOne, int intTwo) {
+		
+		return (Integer.compare(intOne, intTwo) == -1 ? intTwo : intOne); 
+	}
+	
+	public static int getSmalletsManhattanValue(List<String> lstStr) {
+		int intSmallValue = 0;
+		int intTempValue;
+		//lstStr.remove(0);
+		for (int i = 0 ; i < lstStr.size() ; i ++) {
+			String[] lstXYCoord = lstStr.get(i).split(" ");
+			intTempValue = Math.abs(Integer.valueOf(lstXYCoord[0])) + Math.abs(Integer.valueOf(lstXYCoord[1]));
+			if (i == 0) {
+				intSmallValue = intTempValue;
+			}else {
+				intSmallValue = intSmallValue > intTempValue ? intTempValue : intSmallValue;
+			}
+		}
+		
+		return intSmallValue;
+	}
+	
+	public static List<String> removeSpecialIntersections (List<String> lstStr){
+		System.out.println("ENTERING removeSpecialIntersections");
+		System.out.println("lstStr.size = " + lstStr.size());
+		List<String> lstTempStr = new ArrayList<String>();
+		for (int i = 0 ; i < lstStr.size() ; i++ ) {
+			String[] lstXYCoord = lstStr.get(i).split(" ");
+			//System.out.println("x " + lstXYCoord[0]);
+			//System.out.println("y " + lstXYCoord[1]);
+			if (Integer.parseInt(lstXYCoord[0]) != 0 && Integer.parseInt(lstXYCoord[1]) != 0) { 
+				//System.out.println("ADDING lstTempStr " + lstStr.get(i));
+				lstTempStr.add(lstStr.get(i));
+			}
+			
+		}
+		return lstTempStr;
+	}
+	
+	
+}
+
+
+/*
+Create 2 direction List
+Finished when end of list is reached
+Execute direction input;
+Capture location after each direction execution
+compare the location of each
+Compute Manhattan distance
+*/
