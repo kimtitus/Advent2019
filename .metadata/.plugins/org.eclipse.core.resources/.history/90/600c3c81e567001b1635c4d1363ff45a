@@ -1,0 +1,26 @@
+
+public class Day4 {
+	public static void main(String[] args) {
+		Password objPassword = new Passwowrd();
+		
+	}
+	
+	public class Password {
+		int intSpotOne;
+		int intSpotTwo;
+		int intSpotThree;
+		int intSpotFour;
+		int intSpotFive;
+		int intSpotSix;
+		
+		public void Password () {
+			intSpotOne = 2;
+			intSpotTwo = 3;
+			intSpotThree = 1;
+			intSpotFour = 8;
+			intSpotFive = 3;
+			intSpotSix = 2;
+			
+		}
+	}
+}

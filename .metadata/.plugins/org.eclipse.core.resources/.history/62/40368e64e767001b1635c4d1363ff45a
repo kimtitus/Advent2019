@@ -1,0 +1,29 @@
+
+public class Day4 {
+	int intSpotOne;
+	int intSpotTwo;
+	int intSpotThree;
+	int intSpotFour;
+	int intSpotFive;
+	int intSpotSix;
+	
+	public Day4 () {
+		intSpotOne = 2;
+		intSpotTwo = 3;
+		intSpotThree = 1;
+		intSpotFour = 8;
+		intSpotFive = 3;
+		intSpotSix = 2;
+		
+	}
+
+	public static void main(String[] args) {
+		Day4 objDay4 = new Day4();
+		
+	}
+}
+	
+	
+
+	
+

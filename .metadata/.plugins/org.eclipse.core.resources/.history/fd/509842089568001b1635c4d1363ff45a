@@ -1,0 +1,19 @@
+
+public class TestClass {
+	public static void main(String[] args) {
+		String strPassword = String.valueOf((666889));
+		char[] arrayChar = strPassword.toCharArray();
+		char charTemp = arrayChar[0];
+		int intCharDup = 1;
+		for (int i = 1 ; i < arrayChar.length ; i ++) {
+			if ( charTemp != arrayChar[i] ) {
+				charTemp = arrayChar[i];
+				intCharDup = 1;
+			}else {
+				intCharDup++;
+			}
+				
+		}
+		System.out.println("intCharDup = " + intCharDup);
+	}
+}
