@@ -6,24 +6,31 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="1126 -399"/>
+		<item key="selection" value="Day5"/>
 		<list key="findhistory">
-			<item value="1126 -399"/>
+			<item value="Day2"/>
+			<item value="688899"/>
+			<item value="678899"/>
+			<item value="247777"/>
+			<item value="FOUND"/>
+			<item value="98,124 47"/>
+			<item value="intStepsCounter"/>
+			<item value="107,47=410"/>
 			<item value="removeSpecialIntersections"/>
-			<item value="getSmalletsManhattanValue"/>
-			<item value="&#x09;public static int getSmalletsManhattanValue(List&lt;String&gt; lstStr) {&#x0A;"/>
-			<item value="ENTERING getListOfInterSection"/>
-			<item value="on  ="/>
-			<item value="getPositionToAdd"/>
-			<item value="intPosition"/>
-			<item value="lstStr"/>
+			<item value="98,124"/>
+			<item value="107 47"/>
+			<item value="3 3"/>
+			<item value="mapWireLocationDirection"/>
+			<item value="147,162 18"/>
+			<item value="157 -16,71"/>
 		</list>
 		<list key="replacehistory">
+			<item value="Day5"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="453"/>
-		<item key="DIALOG_Y_ORIGIN" value="676"/>
+		<item key="DIALOG_X_ORIGIN" value="544"/>
+		<item key="DIALOG_Y_ORIGIN" value="1068"/>
 		<item key="DIALOG_WIDTH" value="294"/>
 		<item key="DIALOG_HEIGHT" value="408"/>
 		<item key="DIALOG_FONT_NAME" value="1|.AppleSystemUIFont|11.0|0|COCOA|1|.AppleSystemUIFont"/>

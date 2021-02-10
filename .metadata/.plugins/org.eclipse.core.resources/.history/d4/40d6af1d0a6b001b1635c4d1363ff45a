@@ -1,0 +1,106 @@
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+
+public class Day2 {
+	public static List<String> lstMasterInput = new ArrayList<>();
+	
+	public Day2() {
+		intPositionCounter = 0;
+		intVerb = 1;
+		intNoun = 1;
+	}
+	
+	public int intPositionCounter;
+	public int intNoun;
+	public int intVerb;
+	public List<String>lstInput;
+	
+	public static void main(String[] args) throws IOException {
+		
+		 Scanner input = new Scanner(new File("Day2File.txt"));
+		 String strLine = input.nextLine();
+		 lstMasterInput = Arrays.asList(strLine.split(","));
+		 Day2 objDay2 = new Day2();
+		 objDay2.lstInput = new ArrayList<String>(lstMasterInput);
+		 objDay2.lstInput.set(1, "12");
+		 objDay2.lstInput.set(2, "2");
+		 
+		 while (!isInput99(objDay2)) {
+			 setOpCodeResult(objDay2);
+		 }
+		 
+		 System.out.println("lstInput[0] = " + objDay2.lstInput.get(0));
+		 
+	     objDay2 = new Day2();
+	     objDay2.lstInput = new ArrayList<String>(lstMasterInput);
+		while (!isPair19690720(objDay2)) {
+			 objDay2.lstInput = new ArrayList<String>(lstMasterInput);
+			 objDay2.intPositionCounter = 0;
+			 System.out.println("intNoun = " + objDay2.intNoun);
+			 System.out.println("intVerb = " + objDay2.intVerb);
+			 objDay2.lstInput.set(1, String.valueOf(objDay2.intNoun));
+			 objDay2.lstInput.set(2, String.valueOf(objDay2.intVerb));
+			 while (!isInput99(objDay2)) {
+				 setOpCodeResult(objDay2);
+			 }
+			 setVerbNoun(objDay2);
+		 }
+		 System.out.println("objDay2.lstInput[0] = " + objDay2.lstInput.get(0));
+		 System.out.println("objDay2.lstInput[1] = " + objDay2.lstInput.get(1));
+		 System.out.println("objDay2.lstInput[2] = " + objDay2.lstInput.get(2));
+		 
+
+	}
+	
+	private static Boolean isInput99(Day2 objDay2) {
+		return objDay2.lstInput.get(objDay2.intPositionCounter).equals("99") ? true : false;
+	}
+	
+	private static Boolean isPair19690720 (Day2 objDay2) {
+		return objDay2.lstInput.get(0).equals("19690720") && objDay2.intNoun == 99 && objDay2.intVerb == 99? true : false;
+	}
+	
+	private static int getIndexValue(int intPosition ,List<String> lstInput) {
+		return Integer.valueOf(lstInput.get(intPosition));
+	}
+	
+	private static void setVerbNoun(Day2 objDay2) {
+		if (objDay2.intNoun != 99) {
+			objDay2.intNoun++;
+		}else if (objDay2.intVerb != 99 && objDay2.intNoun != 99){
+			objDay2.intVerb++;
+			objDay2.intNoun = 1;
+		}
+	}
+	
+	private static void setOpCodeResult (Day2 objDay2) {
+		 int intOptCode = Integer.valueOf(objDay2.lstInput.get(objDay2.intPositionCounter));
+		 objDay2.intPositionCounter++;
+		 int intPosition2 = getIndexValue(Integer.valueOf(objDay2.lstInput.get(objDay2.intPositionCounter)),objDay2.lstInput);
+		 objDay2.intPositionCounter++;
+		 int intPosition3 =getIndexValue(Integer.valueOf(objDay2.lstInput.get(objDay2.intPositionCounter)),objDay2.lstInput);
+		 objDay2.intPositionCounter++;
+		 int intPosition4 = Integer.valueOf(objDay2.lstInput.get(objDay2.intPositionCounter));
+		 int intResult = intOptCode == 1 ? intPosition2 + intPosition3 : intPosition2 * intPosition3;
+		 objDay2.lstInput.set(intPosition4, String.valueOf(intResult));
+		 objDay2.intPositionCounter++;
+	}
+	
+}
+
+//PART 1
+//Check if program is finished
+//Check the current position to see what operation must be done
+//Do the operation
+//Get the following 3 digits
+
+/*
+PART 2
+Check if the program is finished --> Total must equal 19690720
+Max each digit can be is 99
+increase noun 1 - 99 while incrementing verb by 1
+*/

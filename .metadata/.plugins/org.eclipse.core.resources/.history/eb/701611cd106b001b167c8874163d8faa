@@ -1,0 +1,7 @@
+
+public class TestClass {
+	public static void main(String[] args) {
+		int intTest = 12345;
+		System.out.println(intTest % 100);
+	}
+}

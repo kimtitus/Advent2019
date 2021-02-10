@@ -1,0 +1,15 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class TestClass {
+	public static void main(String[] args) {
+		int intOpCode = 1001;
+		List<Integer> lstOpCode = new ArrayList<Integer>();
+		String strOpCode = String.valueOf(intOpCode);
+		lstOpCode.add(Integer.valueOf(strOpCode.substring(3)));
+		lstOpCode.add(Integer.valueOf(strOpCode.substring(1,2)));
+		lstOpCode.add(Integer.valueOf(strOpCode.substring(0,1)));
+		lstOpCode.add(0);
+		System.out.println("lstOpCode = " + lstOpCode);
+	}
+}

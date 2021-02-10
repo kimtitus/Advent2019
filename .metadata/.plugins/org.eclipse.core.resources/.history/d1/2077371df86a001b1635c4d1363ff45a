@@ -1,0 +1,62 @@
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+
+public class Day2 {
+	public static List<String> lstInput = new ArrayList<>();
+	public static int intPositionCounter = 0;
+	
+	public static void main(String[] args) throws IOException {
+		
+		 Scanner input = new Scanner(new File("Day2File.txt"));
+		 String strLine = input.nextLine();
+		 lstInput = Arrays.asList(strLine.split(","));
+		 //lstInput.set(0, "12");
+		 //lstInput.set(1, "2");
+		 
+		 while (!isInput99(lstInput)) {
+			 System.out.println("intPositionCounter = " + intPositionCounter);
+			 int intOptCode = Integer.valueOf(lstInput.get(intPositionCounter));
+			 intPositionCounter++;
+			 int intPosition2 = getIndexValue(Integer.valueOf(lstInput.get(intPositionCounter)),lstInput);
+			 intPositionCounter++;
+			 int intPosition3 =getIndexValue(Integer.valueOf(lstInput.get(intPositionCounter)),lstInput);
+			 intPositionCounter++;
+			 int intPosition4 = Integer.valueOf(lstInput.get(intPositionCounter));
+			 int intResult = intOptCode == 1 ? intPosition2 + intPosition3 : intPosition2 * intPosition3;
+			 lstInput.set(intPosition4, String.valueOf(intResult));
+			 intPositionCounter++;
+		 }
+		 for (String s :lstInput) {
+			 System.out.println("s = " + s);
+		 }
+		 System.out.println("lstInput[0] = " + lstInput.get(0));
+
+	}
+	
+	private static Boolean isInput99(List<String> lstInput) {
+		return lstInput.get(intPositionCounter).equals("99") ? true : false;
+	}
+	
+	private static int getIndexValue(int intPosition ,List<String> lstInput) {
+		
+		return Integer.valueOf(lstInput.get(intPosition));
+	}
+	
+}
+
+//PART 1
+//Check if program is finished
+//Check the current position to see what operation must be done
+//Do the operation
+//Get the following 3 digits
+
+/*
+PART 2
+Check if the program is finished --> Total must equal 19690720
+Max each digit can be is 99
+increase noun 1 - 99 while incrementing verb by 1
+*/

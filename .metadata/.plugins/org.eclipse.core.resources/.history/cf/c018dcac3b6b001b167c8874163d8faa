@@ -1,0 +1,128 @@
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+
+public class Day5 {
+	public static List<String> lstMasterInput = new ArrayList<>();
+	
+	public Day5() {
+		intPositionCounter = 0;
+		intVerb = 1;
+		intNoun = 1;
+	}
+	
+	public int intPositionCounter;
+	public int intNoun;
+	public int intVerb;
+	public List<String>lstInput;
+	
+	public static void main(String[] args) throws IOException {
+		
+		 Scanner input = new Scanner(new File("Day5File.txt"));
+		 String strLine = input.nextLine();
+		 lstMasterInput = Arrays.asList(strLine.split(","));
+		 Day5 objDay5 = new Day5();
+		 objDay5.lstInput = new ArrayList<String>(lstMasterInput);
+		 //objDay5.lstInput.set(1, "12");
+		 //objDay5.lstInput.set(2, "2");
+		 
+		 while (!isInput99(objDay5)) {
+			 setOpCodeResult(objDay5);
+		 }
+		 
+		 System.out.println("lstInput = " + objDay5.lstInput);
+		
+		 
+
+	}
+	
+	private static Boolean isInput99(Day5 objDay5) {
+		return objDay5.lstInput.get(objDay5.intPositionCounter).equals("99") ? true : false;
+	}
+	
+	private static int getIndexValue(int intPosition ,List<String> lstInput) {
+		System.out.println("getIndexValue");
+		System.out.println("intPosition = " + intPosition);
+		//System.out.println("lstInput.get(intPosition) = " + lstInput.get(intPosition));
+		return Integer.valueOf(lstInput.get(intPosition));
+	}
+
+	
+	private static void setOpCodeResult (Day5 objDay5) {
+		 int intInstruction = Integer.valueOf(objDay5.lstInput.get(objDay5.intPositionCounter));
+		 List<Integer> lstCode = breakDownInstruction(intInstruction);
+		 int intOpCode = lstCode.get(0);
+		 lstCode.remove(0);
+		 lstCode.remove(0);
+		 List<Integer> lstParameterMode = new ArrayList<Integer>(lstCode);
+		 objDay5.intPositionCounter++;
+		 System.out.println("intOpCode = " + intOpCode);
+		 if (intOpCode == 1 || intOpCode == 2) {
+			 System.out.println("intInstruction = " + intInstruction);
+			 System.out.println("lstParameterMode = " + lstParameterMode);
+			// System.out.println("objDay5.intPositionCounter = " + objDay5.intPositionCounter);
+			 int intPosition2 =  lstParameterMode.size() == 0 || lstParameterMode.get(0).equals(0) ? getIndexValue(Integer.valueOf(objDay5.lstInput.get(objDay5.intPositionCounter)),objDay5.lstInput) : Integer.valueOf(objDay5.lstInput.get(objDay5.intPositionCounter));
+			 System.out.println("IntPosition2 = " + intPosition2);
+			// System.out.println("objDay5.intPositionCounter = " + objDay5.intPositionCounter);
+			 objDay5.intPositionCounter++;
+			 //System.out.println("objDay5.intPositionCounter = " + objDay5.intPositionCounter);
+			 //System.out.println("lstInput.get(objDay5.intPositionCounter) = " + objDay5.lstInput.get(objDay5.intPositionCounter));
+			 int intPosition3 = lstParameterMode.size() == 0 || lstParameterMode.get(1).equals(0) ? getIndexValue(Integer.valueOf(objDay5.lstInput.get(objDay5.intPositionCounter)),objDay5.lstInput) : Integer.valueOf(objDay5.lstInput.get(objDay5.intPositionCounter));
+			 System.out.println("IntPosition3 = " + intPosition3);
+			 objDay5.intPositionCounter++;
+			 int intPosition4 = Integer.valueOf(objDay5.lstInput.get(objDay5.intPositionCounter));
+			 System.out.println("intPosition4 = " + intPosition4);
+			 int intResult = intOpCode == 1 ? intPosition2 + intPosition3 : intPosition2 * intPosition3;
+			 System.out.println("Result = " + intResult);
+			 objDay5.lstInput.set(intPosition4, String.valueOf(intResult));
+			 objDay5.intPositionCounter++;
+		 } else if (intOpCode == 3) {
+			
+			 int intPosition2 = getIndexValue(Integer.valueOf(objDay5.lstInput.get(objDay5.intPositionCounter)),objDay5.lstInput);
+			 System.out.println("intPosition2 = " + intPosition2);
+			 Scanner objScanner = new Scanner(System.in);  
+			 System.out.println("objDay5.lstInput = " + objDay5.lstInput);
+			 System.out.println("Enter input");
+			 String strUserInput = objScanner.nextLine();
+			 objDay5.lstInput.set(intPosition2, strUserInput);
+			 System.out.println("objDay5.lstInput = " + objDay5.lstInput);
+			 objDay5.intPositionCounter++;
+
+		 } else if (intOpCode == 4) {
+			 int intPosition2 = getIndexValue(Integer.valueOf(objDay5.lstInput.get(objDay5.intPositionCounter)),objDay5.lstInput);
+			 System.out.println("opCode = 4 output = " + intPosition2);
+			 objDay5.intPositionCounter++;
+		 }
+		
+	}
+	
+	private static List<Integer> breakDownInstruction(int intInstruction) {
+		List<Integer> lstCode = new ArrayList<Integer>();
+		lstCode.add(intInstruction % 10);
+		intInstruction = intInstruction / 10;
+		lstCode.add(intInstruction % 10);
+		intInstruction = intInstruction / 10;
+		lstCode.add(intInstruction % 10);
+		intInstruction = intInstruction / 10;
+		lstCode.add(intInstruction % 10);
+		return lstCode;
+		
+	}
+	
+}
+
+//PART 1
+//Check if program is finished
+//Check the current position to see what operation must be done
+//Do the operation
+//Get the following 3 digits
+
+/*
+PART 2
+Check if the program is finished --> Total must equal 19690720
+Max each digit can be is 99
+increase noun 1 - 99 while incrementing verb by 1
+*/

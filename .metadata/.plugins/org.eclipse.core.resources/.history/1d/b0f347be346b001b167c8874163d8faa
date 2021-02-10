@@ -1,0 +1,10 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class TestClass {
+	public static void main(String[] args) {
+		int intPosition1 = 100;
+		System.out.println(1001 % 0);
+		System.out.println(1001 % 100);
+	}
+}

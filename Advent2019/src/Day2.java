@@ -1,107 +1,96 @@
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Day2 {
-	public static String[] lstStr;
-	public static String[] lstStr2;
-	public static String[] lstStrMaster;
-	public static int intCurrentPosition = 0;
-	public static String strOperation;
+	public static List<String> lstMasterInput = new ArrayList<>();
 	
-	public static int intNoun = 1;
-	public static int intVerb = 1;
+	public Day2() {
+		intPositionCounter = 0;
+		intVerb = 1;
+		intNoun = 1;
+	}
+	
+	public int intPositionCounter;
+	public int intNoun;
+	public int intVerb;
+	public List<String>lstInput;
 	
 	public static void main(String[] args) throws IOException {
 		
 		 Scanner input = new Scanner(new File("Day2File.txt"));
 		 String strLine = input.nextLine();
-		 lstStr = strLine.split(",");
-		 lstStr2 = strLine.split(",");
-		 lstStrMaster = strLine.split(",");
-		 lstStr[1] = "12";
-		 lstStr[2] = "2";
-		 while(!isFinished()) {
-			doOperation(lstStr);
-		 }
-		 System.out.println("[0] Part 1 = " + lstStr[0]);
+		 lstMasterInput = Arrays.asList(strLine.split(","));
+		 Day2 objDay2 = new Day2();
+		 objDay2.lstInput = new ArrayList<String>(lstMasterInput);
+		 objDay2.lstInput.set(1, "12");
+		 objDay2.lstInput.set(2, "2");
 		 
-		 while(!isFinished2()) {
-			intCurrentPosition = 0;
-			lstStr2 = lstStrMaster.clone();
-		
-			
-			 doOperation2();
-			
-			 doIncrement();
-			
-		 
-		}
-		 System.out.println("[0] Part 2 = " + lstStr2[0]);
-		 System.out.println("[1] Part 2 = " + lstStr2[1]);
-		 System.out.println("[2] Part 2 = " + lstStr2[2]);
-		 System.out.println("Final Answer Part2 = " + (100 * Integer.valueOf(lstStr2[1]) + Integer.valueOf(lstStr2[2])));
-	}
-	
-	
-	public static boolean isFinished() {
-		
-		return lstStr[intCurrentPosition].equals("99");
-	}
-	
-	public static void doOperation(String[] lst) {
-		if (lst[intCurrentPosition].equals("1")) {
-			strOperation = "add";
-		} else {
-			strOperation = "multiply";
-		}
-		intCurrentPosition++;
-		int intVal1 = getNextPosition(lst);
-		int intVal2 = getNextPosition(lst);
-		int intPosition = getPositionToAdd(lst);
-		int intValue = strOperation == "add" ? intVal1 + intVal2 : intVal1 * intVal2;
-		//System.out.println("intPosition = " + intPosition);
-		lst[intPosition] = String.valueOf(intValue);
-		
-		
-	}
-	
-	public static int getNextPosition(String[] lst) {
-		int intPositionValue = Integer.valueOf(lst[intCurrentPosition]);
-		intCurrentPosition++;
-		return Integer.valueOf(lst[intPositionValue]);
-	}
-	
-	public static int getPositionToAdd(String[] lst) {
-		
-		int intPosition = Integer.valueOf(lst[intCurrentPosition]);
-		intCurrentPosition++;
-		return intPosition;
-	}
-	
-	public static boolean isFinished2() {
-		
-		return lstStr2[0].equals("19690720");
-	}
-	
-	public static void doOperation2() {
-		lstStr2[1] = String.valueOf(intNoun);
-		lstStr2[2] = String.valueOf(intVerb);
-	    while(!isFinished()) {
-			doOperation(lstStr2);
+		 while (!isInput99(objDay2)) {
+			 setOpCodeResult(objDay2);
 		 }
-		
+		 
+		 System.out.println("lstInput[0] = " + objDay2.lstInput.get(0));
+		 
+	     objDay2 = new Day2();
+	     objDay2.lstInput = new ArrayList<String>(lstMasterInput);
+		while (!isPair19690720(objDay2)) {
+			 objDay2.lstInput = new ArrayList<String>(lstMasterInput);
+			 objDay2.intPositionCounter = 0;
+			 setVerbNoun(objDay2);
+			 System.out.println("intNoun = " + objDay2.intNoun);
+			 System.out.println("intVerb = " + objDay2.intVerb);
+			 objDay2.lstInput.set(1, String.valueOf(objDay2.intNoun));
+			 objDay2.lstInput.set(2, String.valueOf(objDay2.intVerb));
+			 while (!isInput99(objDay2)) {
+				 setOpCodeResult(objDay2);
+			 }
+			
+		 }
+		 System.out.println("objDay2.lstInput[0] = " + objDay2.lstInput.get(0));
+		 System.out.println("objDay2.lstInput[1] = " + objDay2.lstInput.get(1));
+		 System.out.println("objDay2.lstInput[2] = " + objDay2.lstInput.get(2));
+		 System.out.println("a = " + ((100 * objDay2.intNoun) + objDay2.intVerb));
+		 
+
 	}
 	
-	public static void doIncrement() {
-		if( intNoun != 99) {
-			intNoun++;
-		}else if(intVerb != 99) {
-			intNoun = 1;
-			intVerb++;
+	private static Boolean isInput99(Day2 objDay2) {
+		return objDay2.lstInput.get(objDay2.intPositionCounter).equals("99") ? true : false;
+	}
+	
+	private static Boolean isPair19690720 (Day2 objDay2) {
+		return objDay2.lstInput.get(0).equals("19690720") ? true : false;
+	}
+	
+	private static int getIndexValue(int intPosition ,List<String> lstInput) {
+		return Integer.valueOf(lstInput.get(intPosition));
+	}
+	
+	private static void setVerbNoun(Day2 objDay2) {
+		if (objDay2.intNoun != 99) {
+			objDay2.intNoun++;
+		}else if (objDay2.intVerb != 99){
+			objDay2.intVerb++;
+			objDay2.intNoun = 1;
 		}
 	}
 	
+	private static void setOpCodeResult (Day2 objDay2) {
+		 int intOptCode = Integer.valueOf(objDay2.lstInput.get(objDay2.intPositionCounter));
+		 objDay2.intPositionCounter++;
+		 int intPosition2 = getIndexValue(Integer.valueOf(objDay2.lstInput.get(objDay2.intPositionCounter)),objDay2.lstInput);
+		 objDay2.intPositionCounter++;
+		 int intPosition3 =getIndexValue(Integer.valueOf(objDay2.lstInput.get(objDay2.intPositionCounter)),objDay2.lstInput);
+		 objDay2.intPositionCounter++;
+		 int intPosition4 = Integer.valueOf(objDay2.lstInput.get(objDay2.intPositionCounter));
+		 int intResult = intOptCode == 1 ? intPosition2 + intPosition3 : intPosition2 * intPosition3;
+		 objDay2.lstInput.set(intPosition4, String.valueOf(intResult));
+		 objDay2.intPositionCounter++;
+	}
 	
 }
 

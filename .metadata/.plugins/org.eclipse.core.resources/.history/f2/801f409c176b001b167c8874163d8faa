@@ -1,0 +1,22 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class TestClass {
+	public static void main(String[] args) {
+		int intPosition1 = 1001;
+		List<Integer> lstCode = new ArrayList<Integer>();
+		String strOpCode = String.valueOf(intPosition1);
+		if (intPosition1 > 999) {
+			System.out.println("intPosition1 = " + intPosition1);
+			lstCode.add(Integer.valueOf(strOpCode.substring(3)));
+			
+			lstCode.add(0);
+		}if (intPosition1/10 < 999 && intPosition1/10 > 99) {
+			lstCode.add(Integer.valueOf(strOpCode.substring(1,2)));
+			lstCode.add(Integer.valueOf(strOpCode.substring(0,1)));	
+		}
+		lstCode.add(Integer.valueOf(strOpCode.substring(0,1)));
+	
+		System.out.println("lstOpCode = " + lstCode);
+	}
+}
